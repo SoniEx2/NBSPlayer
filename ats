@@ -16,8 +16,8 @@ function wait(_sleep)
     slept = slept + 0.05;
   end
   if (slept - total) >= 0.05 then
-    _time = _time + 0.05;
-    slept = slept + 0.05;
+    _time = _time - 0.05;
+    slept = slept - 0.05;
   end
   sleep(_round(_time));
 end
