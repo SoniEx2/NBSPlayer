@@ -17,16 +17,28 @@ Below that computer, place down a wired modem, and connect your Iron Note Blocks
 
 Supported speeds
 ----------------
-If 20 = 5\*2\*2, then we can get the following values:
+Base speeds supported:
 
-20 TPS (20 / 1)  
-10 TPS (20 / 2)  
-5 TPS (20 / 2\*2)  
-4 TPS (20 / 5)  
-2.5 TPS (20 / 2\*2\*2)  
-2 TPS (20 / 5\*2)  
-1.25 TPS (20 / 2\*2\*2\*2)
-1 TPS (20 / 5\*2\*2)
+20TPS  
+10 TPS  
+7\.67 TPS  
+5 TPS  
+4 TPS  
+3\.33 TPS  
+2\.85 TPS  
+2\.5 TPS  
+2\.22 TPS  
+2 TPS  
+1\.82 TPS  
+1\.67 TPS  
+1\.54 TPS  
+1\.43 TPS  
+1\.33 TPS  
+1\.25 TPS  
+1\.18 TPS  
+1\.11 TPS  
+1\.05 TPS  
+1 TPS
 
 Please note that those are base speeds only, as the ATS adds support for more speeds...
 
