@@ -93,6 +93,7 @@ end
 -- THE FOLLOWING CODE IS A MESS!!!
 local function load(file)
   os.loadAPI("nbs")
+  os.loadAPI("ats")
   local tSong = nbs.load(file)
   delay = tSong.delay
   lenght = tSong.lenght
@@ -153,7 +154,7 @@ local function load(file)
       monitor.setCursorPos(1,sizeY-1)
       monitor.clearLine()
       monitor.write(notesPlayed .. " notes played (" .. math.floor(row/realLenght*1000)/10 .."% completed)")
-      sleep(delay)
+      ats.wait(delay)
       row = row + 1
       -- Put a button in front of the
       -- computer to stop the song.
