@@ -3,6 +3,18 @@ NBSPlayer
 
 ComputerCraft NBS player
 
+Installing
+----------
+Put all the files in .minecraft/saves/%name%/computer/%id%/.  
+You may be able to put them in a subfolder but I did not test that, so use at your own risk!  
+Once you're done, just run "playMonitor <enable colors> <path to file>"!
+
+Setup
+-----
+Place down a computer.  
+On top of that computer, place down a monitor. (either color or black & white)  
+Below that computer, place down a wired modem, and connect your Iron Note Blocks to that modem.
+
 Supported speeds
 ----------------
 If 20 = 5\*2\*2, then we can get the following values:
