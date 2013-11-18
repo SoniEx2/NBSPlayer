@@ -32,5 +32,8 @@ Please note that those are base speeds only, as the ATS adds support for more sp
 
 Minecraft Sound System Limits
 -----------------------------
-Minecraft is set up to only allow 16 simultaneous sounds, that means songs with more than 16 simultaneous note blocks will skip a few notes. Being near mobs will also skip notes.
+Minecraft's Sound System has 2 limits:
+
+1. Minecraft's Sound System has a 2 octave limit... There's no **easy** way to change this...
+2. Minecraft is set up to only allow 16 simultaneous sounds, that means songs with more than 16 simultaneous note blocks will skip a few notes. Being near mobs will also skip notes.
 (PS: Feel free to bug Dinnerbone about this... He won't do it... This program doesn't use Minecraft in the way it was intended to be used...)
