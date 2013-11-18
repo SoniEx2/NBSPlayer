@@ -8,15 +8,12 @@ local function _round(_i)
   return math.ceil(_i * 20) / 20;
 end
 function wait(_sleep)
+  if _sleep < 0 then return end
   total = total + _sleep;
-  slept = slept + _round(_sleep);
-  if slept > total then
-    _sleep = _sleep - 0.05;
-  elseif slept < total then
-    _sleep = _sleep + 0.05;
-  else
-    slept = slept - _round(_sleep);
+  local _time = 0;
+  while slept < total do
+    _time = _time + 0.05;
+    slept = slept + 0.05;
   end
-  slept = slept + _round(_sleep);
-  sleep(_round(_sleep));
+  sleep(_round(_time));
 end
