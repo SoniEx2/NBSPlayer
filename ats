@@ -5,20 +5,21 @@
 local total = 0;
 local slept = 0;
 local function _round(_i)
-  return math.ceil(_i * 20) / 20;
+  _i = _i * 20;
+  if _i >= 0 then
+    return math.floor(_i+.5) / 20
+  else
+    return math.ceil(_i-.5) / 20
+  end
 end
 function wait(_sleep)
   if _sleep < 0 then return end
   total = total + _sleep;
-  local _time = 0;
-  while slept < total do
-    _time = _time + 0.05;
-    slept = slept + 0.05;
-  end
-  if (slept - total) >= 0.025 then
-    _time = _time - 0.05;
+  _sleep = _round(_sleep);
+  slept = slept + _sleep;
+  if (slept - total) >= 0.25 then
+    _sleep = _sleep - 0.05;
     slept = slept - 0.05;
   end
-  if _time <= 0 then return end
-  sleep(_round(_time));
+  sleep(_sleep);
 end
