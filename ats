@@ -9,11 +9,11 @@ local function _round(_i)
 end
 function wait(_sleep)
   total = total + _sleep;
-  slept = slept + _round(_sleep);
   if slept > total then
     _sleep = _sleep - 0.05
   elseif slept < total then
     _sleep = _sleep + 0.05
   end
+  slept = slept + _round(_sleep);
   sleep(_round(_sleep));
 end
