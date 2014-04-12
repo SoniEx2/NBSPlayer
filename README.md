@@ -1,7 +1,14 @@
 NBSPlayer
 =========
 
-ComputerCraft NBS player
+Minecraft NBS Player.  
+Compatible with:
+
+[Versions <= 2.1.1 **ONLY**]  
+ComputerCraft + RichardG's MiscPeripherals
+
+[Versions >= 3.0]  
+OpenComputers + [Computronics](http://mc.shinonome.ch/doku.php?id=wiki:computronics)
 
 Installing
 ----------
@@ -17,30 +24,31 @@ Below that computer, place down a wired modem, and connect your Iron Note Blocks
 
 Supported speeds
 ----------------
-Base speeds supported:
+There are 20 base speeds supported, 10 of them are supported in vanilla, 8 of them are "perfect floats":
+(Bold are "perfect floats", vanilla speeds include repeater delay)
 
-20TPS  
-10 TPS  
-7\.67 TPS  
-5 TPS  
-4 TPS  
-3\.33 TPS  
-2\.85 TPS  
-2\.5 TPS  
-2\.22 TPS  
-2 TPS  
-1\.82 TPS  
-1\.67 TPS  
-1\.54 TPS  
-1\.43 TPS  
-1\.33 TPS  
-1\.25 TPS  
-1\.18 TPS  
-1\.11 TPS  
-1\.05 TPS  
-1 TPS
+**20**  
+**10** - 1  
+6\.67  
+**5** - 2  
+**4**  
+3\.33 - 3  
+2\.86  
+**2\.5** - 4  
+2\.22  
+**2** - 4+1  
+1\.82  
+1\.67 - 4+2  
+1\.54  
+1\.43 - 4+3  
+1\.33  
+**1\.25** - 4+4  
+1\.18  
+1\.11 - 4+4+1  
+1\.05  
+**1** - 4+4+2
 
-Please note that those are base speeds only, as the ATS adds support for more speeds...
+Please note that those are base speeds only, as the ATS (Beta) adds support for more speeds...
 
 Minecraft Sound System Limits
 -----------------------------
