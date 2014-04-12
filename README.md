@@ -24,7 +24,7 @@ Below that computer, place down a wired modem, and connect your Iron Note Blocks
 
 Supported speeds
 ----------------
-There are 20 base speeds supported, 10 of them are supported in vanilla, 8 of them are "perfect floats":
+There are 20 base speeds supported, 10 of them are supported in vanilla, 8 of them are "perfect floats":  
 (Bold are "perfect floats", vanilla speeds include repeater delay)
 
 **20**  
