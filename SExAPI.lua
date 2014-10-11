@@ -3,29 +3,33 @@
   By SoniEx2
 --]]
 
-local SExENV
-if not getfenv(1)["shell"] then
-  -- If we don't have a shell, we're running via os.loadAPI()
-  SExENV = getfenv()
-  --[[
-    Set the environment to _G
-    This is what lets us load this API using os.loadAPI()
-  --]]
-  setfenv(1,_G)
-else
-  error("SExAPI must be loaded with os.loadAPI().")
+local SEx = {}
+
+if getfenv() ~= getfenv(0) then
+  _G.SEx = SEx
 end
-_G.SEx = {}
+
 SEx._VERSION = "SExAPI v1.0"
 SEx.math = {}
-do -- Physics API
-  local tPhys = {}
-  SEx.math.physics = tPhys
+
+do -- Math/s API
+ local t = SEx.math
+ -- https://en.wikipedia.org/wiki/Greatest_common_divisor#Using_Euclid.27s_algorithm
+ local function gcd(a,b)
+  if b == 0 then return a end
+  -- Lua requires "a % b" to be defined as "a - math.floor(a/b)*b"
+  -- so "a % b" is faster than "a - math.floor(a/b)*b"
+  -- http://www.lua.org/manual/5.1/manual.html#2.5.1
+  return gcd(b, a % b)
+ end
+ t.gcd = gcd
+ -- https://en.wikipedia.org/wiki/Least_common_multiple#Reduction_by_the_greatest_common_divisor
+ local function lcm(a,b)
+  return (math.abs(a) / gcd(a,b)) * math.abs(b)
+ end
+ t.lcm = lcm
 end
-do -- Rednet/Modem API
-  local tNet = {}
-  SEx.network = tNet
-end
+
 do -- Advanced monitor API
  SEx.monitor = {}
  SEx.monitor.wrap = function(side)
@@ -161,3 +165,5 @@ do -- Advanced monitor API
   return tMonitorObj
  end
 end
+
+return SEx

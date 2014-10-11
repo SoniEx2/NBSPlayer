@@ -1,0 +1,8 @@
+--[[
+  NTS - Noteblock Timing System
+  by SoniEx2
+--]]
+local nts = {}
+
+local function convert(input, tps)
+end
