@@ -113,14 +113,14 @@ local function songCoroutine(song, x)
         song, x = coroutine.yield(false, false) -- false = end of tick
         isNote = false
       else
-        repeat
+        while count > 1 do
           song, x = coroutine.yield(nil, nil) -- nil = empty note
           if x == "tick" then
-            break -- non-0 count
+            break -- count > 1
           end
           count = count - 1
-        until count == 0
-        if count == 0 then -- count == 0 is the same as x == "note"
+        end
+        if count == 1 then -- count == 1 is the same as x == "note"
           local inst, key = song.songData:match("^..",i):byte(1,2)
           song, x = coroutine.yield(inst + 1, key - 33)
         end
@@ -143,13 +143,13 @@ local function songCoroutine(song, x)
       if count == 0 then
         return false -- no more ticks. next call to getTick()/getNote() errors.
       end
-      repeat
+      while count > 1 do
         while x == "note" do -- last getTick() should unlock getNote()
           song, x = coroutine.yield(false, false)
         end
         song, x = coroutine.yield(true)
         count = count - 1
-      until count == 0
+      end
       isNote = true
     end
   end
