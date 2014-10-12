@@ -143,13 +143,16 @@ local function songCoroutine(song, x)
       if count == 0 then
         return false -- no more ticks. next call to getTick()/getNote() errors.
       end
-      while count > 1 do
+      repeat
         while x == "note" do -- last getTick() should unlock getNote()
           song, x = coroutine.yield(false, false)
         end
         song, x = coroutine.yield(true)
         count = count - 1
-      end
+       -- we need to check for count == 0
+       -- because we don't coroutine.yield(true)
+       -- outside the loop
+      until count == 0
       isNote = true
     end
   end
