@@ -4,10 +4,10 @@ NBSPlayer
 Minecraft NBS Player.  
 Compatible with:
 
-[Versions <= 2.1.1 **ONLY**]  
-ComputerCraft + RichardG's MiscPeripherals
+[Versions <= 3.0 **ONLY**]  
+ComputerCraft + RichardG's MiscPeripherals OR [Computronics](http://mc.shinonome.ch/doku.php?id=wiki:computronics)
 
-[Versions >= 3.0]  
+[Versions >= 4.0]  
 OpenComputers + [Computronics](http://mc.shinonome.ch/doku.php?id=wiki:computronics)
 
 Installing
