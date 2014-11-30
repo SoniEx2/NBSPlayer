@@ -48,6 +48,28 @@ There are 20 base speeds supported, 10 of them are supported in vanilla, 8 of th
 1\.05  
 **1** - 4+4+2
 
+<!-- actual values:
+20.0
+10.0
+6.666666666666667
+5.0
+4.0
+3.3333333333333335
+2.857142857142857
+2.5
+2.2222222222222223
+2.0
+1.8181818181818181
+1.6666666666666667
+1.5384615384615385
+1.4285714285714286
+1.3333333333333333
+1.25
+1.1764705882352942
+1.1111111111111112
+1.0526315789473684
+1.0 -->
+
 Please note that those are base speeds only, as the ATS (Beta) adds support for more speeds...
 
 Minecraft Sound System Limits
