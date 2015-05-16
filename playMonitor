@@ -54,20 +54,18 @@ if not useColors then
   monitor.setBackgroundColor = function() end
 end
 
+local nbsinsttomcinst = {
+[1] = 0,
+[2] = 4,
+[3] = 1,
+[4] = 2,
+[5] = 3,
+}
+
 -- Main play function
 local function play(inst,note)
   -- Remap NBS instruments to Iron Note Block instruments
-  if inst==1 then
-    inst=0
-  elseif inst==2 then
-    inst=4
-  elseif inst==3 then
-    inst=1
-  elseif inst==4 then
-    inst=2
-  elseif inst==5 then
-    inst=3
-  end
+  inst = nbsinsttomcinst[inst]
   -- Lua trick for inline if
   -- Check ID for overflow
   id = id > maxId and 1 or id
@@ -94,7 +92,9 @@ end
 local function load(file)
   os.loadAPI("nbs")
   os.loadAPI("ats")
-  local tSong = nbs.load(file)
+  local startTime = os.clock()
+  local wait = ats.makesleeper()
+  local tSong = assert(nbs.load(file))
   delay = tSong.delay
   lenght = tSong.lenght
   realLenght = lenght * (1/delay)
@@ -103,9 +103,10 @@ local function load(file)
   local footer = ""
   do
     local str1 = maxId .. " note blocks connected"
-    local str2 = 20/(delay*20) .. " TPS"
+    local str2 = 1/delay .. " TPS"
     footer = str1 .. string.rep(" ",monitor.getSize()-#(str1 .. str2)) .. str2
   end
+  currentTime = os.clock()
   for a,b in pairs(tSong) do
     if type(b)=="table" then
       for inst,d in pairs(b) do
@@ -154,7 +155,7 @@ local function load(file)
       monitor.setCursorPos(1,sizeY-1)
       monitor.clearLine()
       monitor.write(notesPlayed .. " notes played (" .. math.floor(row/realLenght*1000)/10 .."% completed)")
-      ats.wait(delay)
+      wait(delay)
       row = row + 1
       -- Put a button in front of the
       -- computer to stop the song.
@@ -162,6 +163,17 @@ local function load(file)
         return
       end
     end
+  end
+  local x = os.clock() - startTime
+  print("Total time: ", x)
+  local avgtps = row / x
+  print("Average TPS: ", avgtps)
+  local diff = avgtps - (1/delay)
+  if diff >= 0.05 or diff <= -0.05 then
+    print("WARNING")
+    print("Song was expected to play at an average TPS of ", 1/delay)
+    print("Unless you've changed game tick rate, THIS IS A BUG!")
+    print("Report it at https://github.com/SoniEx2/NBSPlayer")
   end
 end
 -- Here we run the code above with our file (stored in args[2])
