@@ -27,7 +27,6 @@ function makesleeper()
     if _sleep <= 0 then return end
     total = total + _sleep
     local f, i = _round(total - slept)
-    --print("ts", total - slept)
     slept = slept + f
     sleepspecial(i)
   end

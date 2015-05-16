@@ -3,7 +3,7 @@
   By SoniEx2
 --]]
 
-local SExENV
+--[[local SExENV
 if not getfenv(1)["shell"] then
   -- If we don't have a shell, we're running via os.loadAPI()
   SExENV = getfenv()
@@ -15,7 +15,8 @@ if not getfenv(1)["shell"] then
 else
   error("SExAPI must be loaded with os.loadAPI().")
 end
-_G.SEx = {}
+_G.SEx = {}]]
+local SEx = {}
 SEx._VERSION = "SExAPI v1.0"
 SEx.math = {}
 do -- Physics API
@@ -161,3 +162,5 @@ do -- Advanced monitor API
   return tMonitorObj
  end
 end
+
+return SEx

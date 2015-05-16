@@ -5,7 +5,8 @@
 
 local args = {...} -- args table
 if not args[2] then
-  print("Usage: playMonitor <hasColor> <NBS file>")
+  print("Usage: playMonitor <hasColor> <NBS file> <monitor> <slave...>")
+  print("(Example: playMonitor 1 whatislove.nbs top left right)")
   return
 end
 
@@ -15,7 +16,7 @@ local played,played2=true,true
 local delay,lenght
 local side,textColor,bgColor,notesPlayed,row=0,1,2,0,0
 -- Load SExAPI
-os.loadAPI("SExAPI.lua")
+local SEx = dofile("SExAPI.lua")
 local monitor = SEx.monitor.wrap("top")
 local screenHalfWidth = monitor.getSize()/2
 local sizeX,sizeY = monitor.getSize()
@@ -30,14 +31,6 @@ end
 -- Clear monitor so we can use it
 monitor.clear()
 monitor.setCursorPos(1,1)
-
--- Notes and instruments
-local notenames = {"F#3"," G3","G#3"," A3","A#3"," B3",
-" C4","C#4"," D4","D#4"," E4"," F4","F#4"," G4",
-"G#4"," A4","A#4"," B4"," C5","C#5"," D5","D#5",
-" E5"," F5","F#5"}
-local instnames = {"PIANO","BASS DRUM","SNARE","CLICKS",
-"BASS GUITAR"}
 
 -- ID is the NoteBlock ID to use
 local id=1
@@ -55,11 +48,11 @@ if not useColors then
 end
 
 local nbsinsttomcinst = {
-[1] = 0,
-[2] = 4,
-[3] = 1,
-[4] = 2,
-[5] = 3,
+  [1] = 0,
+  [2] = 4,
+  [3] = 1,
+  [4] = 2,
+  [5] = 3,
 }
 
 -- Main play function
@@ -82,7 +75,7 @@ local function play(inst,note)
   monitor.setTextColor(textColor)
   monitor.print(str)
   monitor.setTextColor(1)
-  -- Increase ID, change text color, increase notes played
+-- Increase ID, change text color, increase notes played
   id = id + 1
   textColor = textColor*2
   notesPlayed = notesPlayed + 1
@@ -116,8 +109,8 @@ local function load(file)
           bgColor = textColor
           monitor.setBackgroundColor(bgColor)
           monitor.clear()
-	  -- This is for large filenames... We don't
-	  -- want the monitor eating them...
+          -- This is for large filenames... We don't
+          -- want the monitor eating them...
           if headerXPos<1 then
             monitor.setCursorPos(1,1)
           else
@@ -128,13 +121,13 @@ local function load(file)
           -- Write footer
           monitor.setCursorPos(1,sizeY)
           monitor.write(footer)
-	  monitor.setCursorPos(posX,posY)
+          monitor.setCursorPos(posX,posY)
         end
         for e,note in pairs(d) do
-	  -- Play notes
+          -- Play notes
           play(inst,note)
         end
-	--[[
+        --[[
 	  This lets the code clear the screen
 	  once we're done playing all the notes.
 	  It also removes notes flashing, decreasing
