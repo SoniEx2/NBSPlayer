@@ -74,12 +74,13 @@ local function nextTick(file, tSong)
 end
 
 -- read the notes in a tick
+-- TODO cleanup, move checks to player:nbs.lua
 local function readTick(file)
   local t = {}
   local jump = readShort(file)
   while jump > 0 do
     local instrument = file.read() + 1
-    if instrument > 5 then
+    if instrument > 7 then -- Soni: we actually support 7 instruments
       return nil, "Can't convert custom instruments"
     end
     local note = file.read() - 33
@@ -135,6 +136,9 @@ function load(sPath, bVerbose)
       end
       yield()
     end
+    
+    -- TODO parse layer volumes
+    
     file.close()
     return tSong
   end
