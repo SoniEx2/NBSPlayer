@@ -8,7 +8,7 @@ Compatible with:
 ComputerCraft + RichardG's MiscPeripherals OR [Computronics](http://mc.shinonome.ch/doku.php?id=wiki:computronics)
 
 [Versions >= 4.0]  
-OpenComputers + [Computronics](http://mc.shinonome.ch/doku.php?id=wiki:computronics)
+ComputerCraft + [Computronics](http://mc.shinonome.ch/doku.php?id=wiki:computronics)
 
 Installing
 ----------
