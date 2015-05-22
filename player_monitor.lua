@@ -30,6 +30,8 @@ playermonitor.new = function(monitor, id, subid, settings)
   return function()
     local hasColor, title = settings.hasColor, settings.title
 
+    monitor.setTextScale(0.5)
+
     if not hasColor then
       monitor.setTextColor(colors.white)
       monitor.setBackgroundColor(colors.black)
@@ -42,12 +44,12 @@ playermonitor.new = function(monitor, id, subid, settings)
     local notesPlayed, row = 0, 0
 
     local sizeX, sizeY = monitor.getSize()
-    local halfSizeX = sizeX / 2
+    local halfSizeX = math.ceil(sizeX / 2) + 1
 
     local header = "Now playing: " .. title
-    local headerXPos = halfSizeX - (#header / 2)
+    local headerXPos = halfSizeX - math.ceil(#header / 2)
 
-    local played, played2 = false, false
+    local played, played2 = false, true
 
     while true do
       local evt, p1_id, p2_subid, p3_inst_or_state, p4_note, p5_volume = os.pullEvent()
@@ -58,10 +60,10 @@ playermonitor.new = function(monitor, id, subid, settings)
             played2 = false
 
             sizeX, sizeY = monitor.getSize()
-            halfSizeX = sizeX / 2
+            halfSizeX = math.ceil(sizeX / 2) + 1
 
             header = "Now playing: " .. title
-            headerXPos = halfSizeX - (#header / 2)
+            headerXPos = halfSizeX - math.ceil(#header / 2)
 
             hasColor, title = settings.hasColor, settings.title
 
@@ -75,15 +77,23 @@ playermonitor.new = function(monitor, id, subid, settings)
               monitor.setBackgroundColor(colors.black)
             end
 
-            monitor.clear()
+            -- we want to be quick, so precalculate everything
+            local str = settings.footerRight
+            local str2 = settings.footerLeft
+            local strpos = sizeX - #str
+            local sizeYm1 = sizeY - 1
+            local completed = math.floor(row / settings.length * 100)
+            local np = string.format("%d notes played (%d%% completed)", notesPlayed, completed)
+            local combinedFooter = string.sub(str2, 1, math.max(1, strpos)) .. string.rep(" ", math.max(0, strpos - #str2)) .. str
+
             monitor.setCursorPos(math.max(1, headerXPos), 1)
+            monitor.clear()
             monitor_print(monitor, header)
             local posX,posY = monitor.getCursorPos()
-            monitor.setCursorPos(1, sizeY + 0)
-            monitor.write(settings.footerLeft .. "")
-            local str = settings.footerRight
-            monitor.setCursorPos(sizeX - #str, sizeY + 0)
-            monitor.write(str .. "")
+            monitor.setCursorPos(1, sizeYm1)
+            monitor.write(np)
+            monitor.setCursorPos(1, sizeY)
+            monitor.write(combinedFooter)
             monitor.setCursorPos(posX, posY)
           end
 
@@ -93,7 +103,7 @@ playermonitor.new = function(monitor, id, subid, settings)
           -- notes
           local str = noteinfo.instnames[inst+1] .. " " .. noteinfo.notenames[note+1]
           local _,pos = monitor.getCursorPos()
-          monitor.setCursorPos(halfSizeX - string.len(str) / 2 + 0, pos + 0)
+          monitor.setCursorPos(halfSizeX - math.ceil(string.len(str) / 2), pos)
 
           if hasColor then
             fgColor = fgColor % maxColor + 1
@@ -120,13 +130,19 @@ playermonitor.new = function(monitor, id, subid, settings)
 
           -- done after playing (print notes played, etc)
           row = row + 1
-          --local str = notesPlayed .. " notes played (" .. math.floor(row / settings.length * 1000) / 10 .."% completed)"
-          local completed = math.floor(row / settings.length * 1000) / 10
-          local str = string.format("%d notes played (%d%% completed)", notesPlayed, completed)
+          local str = settings.footerRight
+          local str2 = settings.footerLeft
+          local strpos = sizeX - #str
+          local sizeYm1 = sizeY - 1
+          local completed = math.floor(row / settings.length * 100)
+          local np = string.format("%d notes played (%d%% completed)", notesPlayed, completed)
+          local combinedFooter = string.sub(str2, 1, math.max(1, strpos)) .. string.rep(" ", math.max(0, strpos - #str2)) .. str
+
           local posX,posY = monitor.getCursorPos()
-          monitor.setCursorPos(1,sizeY-1)
-          monitor.clearLine()
-          monitor.write(str .. "")
+          monitor.setCursorPos(1, sizeYm1)
+          monitor.write(np)
+          monitor.setCursorPos(1, sizeY)
+          monitor.write(combinedFooter)
           monitor.setCursorPos(posX, posY)
 
         end

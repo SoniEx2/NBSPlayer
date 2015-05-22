@@ -1,5 +1,9 @@
 local playernbs = {}
 
+local loadAsModule = dofile("loadasmodule.lua").loadAsModule
+local nbs = loadAsModule("nbs.lua")
+local ats = loadAsModule("ats.lua")
+
 local NBS_MC_inst = {
   [1] = 0,
   [2] = 4,
@@ -15,49 +19,38 @@ local playNBSNote = function(id, subid, inst, note, volume)
   local mcnote = note - 33
   local mcvolume = volume / 100
   os.queueEvent("player:slave", id, subid, mcinst, mcnote, mcvolume)
-  os.pullEvent("player:slave") -- wait for slaves
 end
 
-local playNBSNotes = function(id, subid, inst, noteTable)
+local playNBSNotes = function(id, subid, inst, noteTable, tSong)
 
+  local i = 0
+  local layers = tSong.layers
   -- TODO figure out why ipairs() doesn't work
-  for _,note in pairs(noteTable) do
-    playNBSNote(id, subid, inst, note + 33, 100)
+  for layer,note in pairs(noteTable) do
+    i = i + 1
+    playNBSNote(id, subid, inst, note + 33, layers[layer].volume)
   end
-
+  for i=1,i do
+    repeat
+      local e, i, s = os.pullEvent("player:slave") -- wait for slaves
+    until i == id and s == subid -- our slaves
+  end
 end
 
-local playNBSInstruments = function(id, subid, instTable)
+local playNBSInstruments = function(id, subid, instTable, tSong)
 
   os.queueEvent("player:monitor", id, subid, "pre")
   os.pullEvent("player:monitor") -- wait for monitor
 
   -- TODO figure out why ipairs() doesn't work
   for inst, notes in pairs(instTable) do
-    playNBSNotes(id, subid, inst - 1, notes)
+    playNBSNotes(id, subid, inst - 1, notes, tSong)
   end
 
   os.queueEvent("player:monitor", id, subid, "post")
   os.pullEvent("player:monitor") -- wait for monitor
   
 end
-
--- os.loadAPI sucks >.>
-local function loadAsModule(f)
-  local x = assert(loadfile(f))
-  local mt = {__index = getfenv()}
-  local env = setmetatable({}, mt)
-  setfenv(x, env)
-  x()
-  local ret = {}
-  for k,v in pairs(env) do
-    ret[k] = v
-  end
-  return ret
-end
-
-local nbs = loadAsModule("nbs.lua")
-local ats = loadAsModule("ats.lua")
 
 playernbs.new = function(id, subid, filename, monitorSettings)
   return function()
@@ -76,7 +69,7 @@ playernbs.new = function(id, subid, filename, monitorSettings)
 
     local startTime = os.clock()
     for _,tick in ipairs(tSong) do
-      playNBSInstruments(id, subid, tick)
+      playNBSInstruments(id, subid, tick, tSong)
       row = row + 1
       wait(delay)
       if rs.getInput("front") then

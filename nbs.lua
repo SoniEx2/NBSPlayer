@@ -1,6 +1,7 @@
 --[[
   NoteBlock Song API
   by MysticT
+  Twekaed by Soni
 --]]
 
 -- yield to avoid error
@@ -77,8 +78,10 @@ end
 -- TODO cleanup, move checks to player:nbs.lua
 local function readTick(file)
   local t = {}
+  local n = 0
   local jump = readShort(file)
   while jump > 0 do
+    n = n + jump
     local instrument = file.read() + 1
     if instrument > 7 then -- Soni: we actually support 7 instruments
       return nil, "Can't convert custom instruments"
@@ -90,7 +93,7 @@ local function readTick(file)
     if not t[instrument] then
       t[instrument] = {}
     end
-    table.insert(t[instrument], note)
+    t[instrument][n] = note
     jump = readShort(file)
   end
   return t
@@ -136,9 +139,20 @@ function load(sPath, bVerbose)
       end
       yield()
     end
-    
-    -- TODO parse layer volumes
-    
+
+    pcall(function()
+        local layers = {}
+        for i=1, header.height do
+          table.insert(layers, {name=readString(file), volume=file.read() + 0})
+        end
+        tSong.layers = layers
+        
+        local insts = {}
+        for i=1, file.read() + 0 do
+          table.insert(insts, {name=readString(file), file=readString(file), pitch=file.read() + 0, key=(file.read() + 0) ~= 0})
+        end
+        tSong.instruments = insts
+      end)
     file.close()
     return tSong
   end
