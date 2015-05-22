@@ -17,7 +17,7 @@ local NBS_MC_inst = {
 local playNBSNote = function(id, subid, inst, note, volume)
   local mcinst = NBS_MC_inst[inst + 1]
   local mcnote = note - 33
-  local mcvolume = volume / 100
+  local mcvolume = volume / 200
   os.queueEvent("player:slave", id, subid, mcinst, mcnote, mcvolume)
 end
 
