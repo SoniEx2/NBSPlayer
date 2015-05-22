@@ -4,13 +4,8 @@
 --]]
 local function _round(_i)
   _i = _i * 20;
-  if _i >= 0 then
-    local x = math.floor(_i+.5)
-    return x / 20, x
-  else
-    local x = math.ceil(_i-.5)
-    return x / 20, x
-  end
+  local x = math.floor(_i+.5)
+  return x / 20, x
 end
 
 -- custom "working" sleep (can sleep 4-12 ticks without sleeping an extra tick)
